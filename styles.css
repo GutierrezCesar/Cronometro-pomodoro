@@ -1,0 +1,65 @@
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.inputs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.inputs label {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+}
+
+input {
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: none;
+  width: 100px;
+}
+
+.clock-display {
+  font-size: 2.5rem;
+  margin: 15px 0;
+}
+
+.controls button {
+  font-size: 1.2rem;
+  margin: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #1e88e5;
+  color: white;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background-color: #1565c0;
+}
+
+@media (max-width: 600px) {
+  .inputs {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .inputs label {
+    width: 80%;
+  }
+}

@@ -2,8 +2,28 @@ let sequence = [];
 let currentTimer = null;
 let alarm = document.getElementById("alarm-sound");
 let time = 0;
+let wakeLock = null;
 
-function startSequence() {
+// Solicitar Wake Lock para evitar que la pantalla se apague
+async function requestWakeLock() {
+  try {
+    wakeLock = await navigator.wakeLock.request('screen');
+    console.log('Wake Lock activado');
+  } catch (err) {
+    console.error('No se pudo activar el Wake Lock:', err);
+  }
+}
+
+// Reintentar el Wake Lock si se pierde
+document.addEventListener("visibilitychange", async () => {
+  if (wakeLock !== null && document.visibilityState === "visible") {
+    await requestWakeLock();
+  }
+});
+
+async function startSequence() {
+  await requestWakeLock(); // Evitar que se apague la pantalla (si es compatible)
+
   const work = parseTime(document.getElementById("work-time").value);
   const shortBreak = parseTime(document.getElementById("short-break-time").value);
   const longBreak = parseTime(document.getElementById("long-break-time").value);
@@ -26,7 +46,7 @@ function startSequence() {
 }
 
 function parseTime(timeStr) {
-  const regex = /^([0-9]{2}):([0-9]{2}):([0-9]{2})$/;  // Regex para formato HH:MM:SS
+  const regex = /^([0-9]{2}):([0-9]{2}):([0-9]{2})$/;
   const match = timeStr.match(regex);
 
   if (!match) return null;
@@ -36,7 +56,6 @@ function parseTime(timeStr) {
   const minutes = parseInt(m);
   const seconds = parseInt(s);
 
-  // Validar que los valores sean correctos
   if (hours < 0 || minutes < 0 || seconds < 0 || minutes > 59 || seconds > 59) {
     return null;
   }
@@ -65,18 +84,21 @@ function runNextPhase() {
 
 function runTimer(duration, callback) {
   clearInterval(currentTimer);
-  time = duration;
-  updateDisplay();
+  const endTime = Date.now() + duration * 1000;
 
-  currentTimer = setInterval(() => {
-    time--;
+  function tick() {
+    const now = Date.now();
+    time = Math.max(0, Math.floor((endTime - now) / 1000));
     updateDisplay();
 
     if (time <= 0) {
       clearInterval(currentTimer);
       callback();
     }
-  }, 1000);
+  }
+
+  tick(); // Ejecutar de inmediato
+  currentTimer = setInterval(tick, 1000);
 }
 
 function updateDisplay() {

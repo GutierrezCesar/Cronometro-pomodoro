@@ -13,7 +13,6 @@ La aplicación divide tu tiempo en intervalos de trabajo de **25 minutos** segui
 ## 📸 Captura de pantalla
 
 Aquí tienes una vista previa de la aplicación:
-![Pomodoro Timer Screenshot]
 (![alt text](image.png))
 
 ## 🚀 Instalación

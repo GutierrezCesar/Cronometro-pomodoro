@@ -14,11 +14,11 @@ function startSequence() {
   }
 
   sequence = [
-    { label: "Trabajo 1", duration: work },
+    { label: "Estudio 1", duration: work },
     { label: "Descanso Corto 1", duration: shortBreak },
-    { label: "Trabajo 2", duration: work },
+    { label: "Estudio 2", duration: work },
     { label: "Descanso Corto 2", duration: shortBreak },
-    { label: "Trabajo 3", duration: work },
+    { label: "Estudio 3", duration: work },
     { label: "Descanso Largo", duration: longBreak }
   ];
 
@@ -46,7 +46,7 @@ function parseTime(timeStr) {
 
 function runNextPhase() {
   if (sequence.length === 0) {
-    document.getElementById("current-phase").textContent = "Ciclo completado 🎉";
+    document.getElementById("current-phase").textContent = "Estudio completado 🎉";
     document.getElementById("time-display").textContent = "00:00:00";
     return;
   }
